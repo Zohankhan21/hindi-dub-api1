@@ -13,6 +13,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
 dotenv.config();
 app.use(express.json());
 
@@ -21,15 +22,14 @@ const limiter = rateLimit({
   max: 10, // 100 requests per window
   message: "Too many requests, please try again later.",
 });
+
 if (process.env.RATE_LIMIT === "true") {
   app.use(limiter);
 }
+
 app.use("/api/v1", router);
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.send("its ok");
 });
 
-const Port = process.env.PORT || 5001;
-app.listen(Port, () => {
-  console.log(`Server running on port ${Port}`);
-});
+export default app;
